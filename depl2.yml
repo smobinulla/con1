@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mobin-deployment2
+  namespace: nginx-ingress
+  labels:
+    app: webapp2
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: webapp2
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: webapp2
+    spec:
+      containers:
+      - name: mobinwebapp1
+        image: smobinulla/nginxmob:primecare
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp2svc
+  namespace: nginx-ingress
+  labels:
+    app: webapp2
+spec:
+  selector:
+    app: webapp2
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
