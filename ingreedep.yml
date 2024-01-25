@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: webapp1.latheeffoods.shop
+  - host: webapp1.mubeentech.xyz
     http:
       paths:
       - pathType: Prefix
@@ -16,7 +16,7 @@ spec:
             name: webapp1svc
             port:
               number: 80
-  - host: webapp2.latheeffoods.shop
+  - host: webapp2.mubeentech.xyz
     http:
       paths:
       - pathType: Prefix
