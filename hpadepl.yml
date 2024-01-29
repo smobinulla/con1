@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hpadeployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: hpapod
+  template:
+    metadata:
+      labels:
+        name: hpapod
+    spec:
+      containers:
+        - name: hpacontainer
+          image: k8.gc.io/hpa-example
+          ports:
+          - name: http
+            containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hpaclusterservice
+  labels:
+    name: hpaservice
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    name: hpapod
+    type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hpanodeportservice
+  labels:
+    name: hpanodeportservice
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+     name: hpapod
+     type: NodePort
+
+
